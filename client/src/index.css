@@ -1,0 +1,37 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: "Inter", "Segoe UI", sans-serif;
+  }
+
+  body {
+    @apply min-h-screen bg-app-background text-app-text antialiased;
+  }
+
+  #root {
+    @apply min-h-screen;
+  }
+}
+
+@layer components {
+  .panel {
+    @apply rounded-xl border border-app-outline bg-app-surface shadow-panel;
+  }
+
+  .input {
+    @apply w-full rounded-lg border border-app-outline bg-app-surface px-4 py-3 text-sm text-app-text outline-none transition placeholder:text-app-muted focus:border-app-primary focus:ring-1 focus:ring-app-primary;
+  }
+
+  .section-title {
+    @apply text-2xl font-semibold tracking-tight text-app-text;
+  }
+
+  .section-copy {
+    @apply text-sm leading-6 text-app-muted;
+  }
+}
