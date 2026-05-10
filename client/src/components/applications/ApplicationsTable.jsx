@@ -1,8 +1,8 @@
-import Button from "../common/Button";
+import ApplicationRowMenu from "./ApplicationRowMenu";
 import StatusBadge from "../common/StatusBadge";
 import { formatDate } from "../../utils/date";
 
-const ApplicationsTable = ({ applications, onEdit, onDelete }) => (
+const ApplicationsTable = ({ applications, onView, onEdit, onDelete }) => (
   <div className="panel overflow-hidden">
     <div className="overflow-x-auto">
       <table className="min-w-full divide-y divide-app-outline">
@@ -13,7 +13,7 @@ const ApplicationsTable = ({ applications, onEdit, onDelete }) => (
             <th className="px-6 py-4 font-semibold">Applied</th>
             <th className="px-6 py-4 font-semibold">Status</th>
             <th className="px-6 py-4 font-semibold">Platform</th>
-            <th className="px-6 py-4 text-right font-semibold">Actions</th>
+            <th className="w-14 px-3 py-4 text-center font-semibold"></th>
           </tr>
         </thead>
         <tbody className="divide-y divide-app-outline">
@@ -35,15 +35,13 @@ const ApplicationsTable = ({ applications, onEdit, onDelete }) => (
               <td className="px-6 py-4 text-app-muted">
                 {application.platform || "Direct"}
               </td>
-              <td className="px-6 py-4">
-                <div className="flex justify-end gap-2 opacity-100 transition md:opacity-0 md:group-hover:opacity-100">
-                  <Button variant="secondary" onClick={() => onEdit(application)}>
-                    Edit
-                  </Button>
-                  <Button variant="danger" onClick={() => onDelete(application._id)}>
-                    Delete
-                  </Button>
-                </div>
+              <td className="w-14 px-3 py-4">
+                <ApplicationRowMenu
+                  application={application}
+                  onView={onView}
+                  onEdit={onEdit}
+                  onDelete={onDelete}
+                />
               </td>
             </tr>
           ))}

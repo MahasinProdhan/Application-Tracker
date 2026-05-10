@@ -20,8 +20,16 @@ const initialState = {
   resumeVersion: "",
 };
 
-const ApplicationFormModal = ({ isOpen, onClose, onSubmit, currentApplication, submitting }) => {
+const ApplicationFormModal = ({
+  isOpen,
+  onClose,
+  onSubmit,
+  currentApplication,
+  mode = "create",
+  submitting,
+}) => {
   const [formData, setFormData] = useState(initialState);
+  const isReadOnly = mode === "view";
 
   useEffect(() => {
     if (currentApplication) {
@@ -48,27 +56,33 @@ const ApplicationFormModal = ({ isOpen, onClose, onSubmit, currentApplication, s
 
   return (
     <Modal
-      title={currentApplication ? "Edit application" : "Add application"}
+      title={
+        mode === "view"
+          ? "Application details"
+          : currentApplication
+            ? "Edit application"
+            : "Add application"
+      }
       isOpen={isOpen}
       onClose={onClose}
     >
       <form onSubmit={handleSubmit} className="grid gap-4 md:grid-cols-2">
-        <Input label="Company name" name="companyName" value={formData.companyName} onChange={handleChange} required />
-        <Input label="Role applied" name="role" value={formData.role} onChange={handleChange} required />
-        <Input label="Location" name="location" value={formData.location} onChange={handleChange} />
-        <Input label="Salary / CTC" name="salary" value={formData.salary} onChange={handleChange} />
-        <Input label="Platform" name="platform" value={formData.platform} onChange={handleChange} />
-        <Input label="Applied date" type="date" name="appliedDate" value={formData.appliedDate} onChange={handleChange} required />
-        <Select label="Current status" name="status" value={formData.status} onChange={handleChange}>
+        <Input label="Company name" name="companyName" value={formData.companyName} onChange={handleChange} required disabled={isReadOnly} />
+        <Input label="Role applied" name="role" value={formData.role} onChange={handleChange} required disabled={isReadOnly} />
+        <Input label="Location" name="location" value={formData.location} onChange={handleChange} disabled={isReadOnly} />
+        <Input label="Salary / CTC" name="salary" value={formData.salary} onChange={handleChange} disabled={isReadOnly} />
+        <Input label="Platform" name="platform" value={formData.platform} onChange={handleChange} disabled={isReadOnly} />
+        <Input label="Applied date" type="date" name="appliedDate" value={formData.appliedDate} onChange={handleChange} required disabled={isReadOnly} />
+        <Select label="Current status" name="status" value={formData.status} onChange={handleChange} disabled={isReadOnly}>
           {APPLICATION_STATUSES.map((status) => (
             <option key={status} value={status}>
               {status}
             </option>
           ))}
         </Select>
-        <Input label="Interview date" type="date" name="interviewDate" value={formData.interviewDate} onChange={handleChange} />
-        <Input label="Job link" name="jobLink" value={formData.jobLink} onChange={handleChange} placeholder="https://..." />
-        <Input label="Resume version" name="resumeVersion" value={formData.resumeVersion} onChange={handleChange} />
+        <Input label="Interview date" type="date" name="interviewDate" value={formData.interviewDate} onChange={handleChange} disabled={isReadOnly} />
+        <Input label="Job link" name="jobLink" value={formData.jobLink} onChange={handleChange} placeholder="https://..." disabled={isReadOnly} />
+        <Input label="Resume version" name="resumeVersion" value={formData.resumeVersion} onChange={handleChange} disabled={isReadOnly} />
         <label className="block space-y-2 md:col-span-2">
           <span className="text-sm font-medium text-gray-700">Notes</span>
           <textarea
@@ -77,15 +91,22 @@ const ApplicationFormModal = ({ isOpen, onClose, onSubmit, currentApplication, s
             value={formData.notes}
             onChange={handleChange}
             placeholder="Add recruiter notes, interview prep points, or follow-up reminders"
+            disabled={isReadOnly}
           />
         </label>
         <div className="md:col-span-2 flex justify-end gap-3">
           <Button variant="secondary" onClick={onClose}>
-            Cancel
+            {isReadOnly ? "Close" : "Cancel"}
           </Button>
-          <Button type="submit" disabled={submitting}>
-            {submitting ? "Saving..." : currentApplication ? "Update application" : "Create application"}
-          </Button>
+          {!isReadOnly ? (
+            <Button type="submit" disabled={submitting}>
+              {submitting
+                ? "Saving..."
+                : currentApplication
+                  ? "Update application"
+                  : "Create application"}
+            </Button>
+          ) : null}
         </div>
       </form>
     </Modal>

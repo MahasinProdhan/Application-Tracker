@@ -19,6 +19,10 @@ const TITLES = {
     eyebrow: "Insights",
     title: "Analytics",
   },
+  "/calendar": {
+    eyebrow: "Schedule",
+    title: "Calendar",
+  },
   "/profile": {
     eyebrow: "Account",
     title: "Profile settings",

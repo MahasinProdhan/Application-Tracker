@@ -22,6 +22,7 @@ const ApplicationsPage = () => {
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentApplication, setCurrentApplication] = useState(null);
+  const [modalMode, setModalMode] = useState("create");
   const [submitting, setSubmitting] = useState(false);
 
   const loadApplications = async () => {
@@ -40,11 +41,19 @@ const ApplicationsPage = () => {
 
   const handleCreateClick = () => {
     setCurrentApplication(null);
+    setModalMode("create");
+    setIsModalOpen(true);
+  };
+
+  const handleViewClick = (application) => {
+    setCurrentApplication(application);
+    setModalMode("view");
     setIsModalOpen(true);
   };
 
   const handleEditClick = (application) => {
     setCurrentApplication(application);
+    setModalMode("edit");
     setIsModalOpen(true);
   };
 
@@ -57,7 +66,7 @@ const ApplicationsPage = () => {
   const handleSubmit = async (formData) => {
     setSubmitting(true);
     try {
-      if (currentApplication) {
+      if (modalMode === "edit" && currentApplication) {
         await updateApplicationRequest(currentApplication._id, formData);
         toast.success("Application updated successfully");
       } else {
@@ -89,6 +98,7 @@ const ApplicationsPage = () => {
       ) : applications.length ? (
         <ApplicationsTable
           applications={applications}
+          onView={handleViewClick}
           onEdit={handleEditClick}
           onDelete={handleDelete}
         />
@@ -104,6 +114,7 @@ const ApplicationsPage = () => {
         onClose={() => setIsModalOpen(false)}
         onSubmit={handleSubmit}
         currentApplication={currentApplication}
+        mode={modalMode}
         submitting={submitting}
       />
     </div>
