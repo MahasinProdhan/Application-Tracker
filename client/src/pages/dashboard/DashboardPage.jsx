@@ -38,10 +38,10 @@ const DashboardPage = () => {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       <section className="flex flex-col gap-1">
-        <h2 className="text-3xl font-bold tracking-tight text-app-text">Dashboard</h2>
-        <p className="text-sm text-app-muted">Overview of your career pipeline.</p>
+        {/* <h2 className="text-3xl font-bold tracking-tight text-app-text">Dashboard</h2>
+        <p className="text-sm text-app-muted">Overview of your career pipeline.</p> */}
       </section>
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3 xl:grid-cols-5">

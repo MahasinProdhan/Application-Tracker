@@ -4,7 +4,7 @@ import { NAV_ITEMS } from "../../utils/constants";
 import { cn } from "../../utils/classNames";
 
 const Sidebar = () => (
-  <aside className="hidden w-60 flex-col border-r border-app-outline bg-app-surface-low px-4 py-8 xl:flex">
+  <aside className="sticky top-0 hidden h-screen w-60 shrink-0 flex-col overflow-y-auto border-r border-app-outline bg-app-surface-low px-4 py-8 xl:flex">
     <div className="mb-10 flex items-center gap-3 px-2">
       <div className="rounded-full bg-app-primary p-2.5 text-white">
         <BriefcaseBusiness size={18} />
