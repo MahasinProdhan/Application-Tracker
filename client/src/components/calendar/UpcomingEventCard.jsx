@@ -9,7 +9,7 @@ const UpcomingEventCard = ({ event }) => {
   const style = CALENDAR_EVENT_STYLES[event.type];
 
   return (
-    <div className={`rounded-xl border p-4 transition hover:bg-app-surface-low ${style.card}`}>
+    <div className={`rounded-xl border p-3.5 transition hover:bg-app-surface-low ${style.card}`}>
       <div className="flex items-center justify-between gap-3">
         <span className={`rounded-full border px-2.5 py-1 text-[11px] font-semibold ${style.chip}`}>
           {style.label}
@@ -17,12 +17,12 @@ const UpcomingEventCard = ({ event }) => {
         <span className="text-xs text-app-muted">{getShortDateLabel(event.date)}</span>
       </div>
 
-      <div className="mt-3">
+      <div className="mt-2.5">
         <p className="text-sm font-semibold text-app-text">{event.title}</p>
         <p className="mt-1 text-sm text-app-secondary">{event.company}</p>
       </div>
 
-      <div className="mt-4 space-y-2 text-xs text-app-muted">
+      <div className="mt-3 space-y-1.5 text-xs text-app-muted">
         <div className="flex items-center gap-2">
           <CalendarDays size={14} />
           <span>{getRelativeLabel(event.date)}</span>
