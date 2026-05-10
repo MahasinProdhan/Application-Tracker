@@ -9,6 +9,7 @@ import DashboardPage from "./pages/dashboard/DashboardPage";
 import ApplicationsPage from "./pages/applications/ApplicationsPage";
 import KanbanPage from "./pages/applications/KanbanPage";
 import AnalyticsPage from "./pages/analytics/AnalyticsPage";
+import CalendarPage from "./pages/calendar/CalendarPage";
 import ProfilePage from "./pages/profile/ProfilePage";
 import NotFoundPage from "./pages/NotFoundPage";
 
@@ -37,6 +38,7 @@ const App = () => (
       <Route path="/applications" element={<ApplicationsPage />} />
       <Route path="/kanban" element={<KanbanPage />} />
       <Route path="/analytics" element={<AnalyticsPage />} />
+      <Route path="/calendar" element={<CalendarPage />} />
       <Route path="/profile" element={<ProfilePage />} />
     </Route>
 
