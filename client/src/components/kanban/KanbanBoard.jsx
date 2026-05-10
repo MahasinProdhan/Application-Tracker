@@ -2,7 +2,7 @@ import KanbanColumn from "./KanbanColumn";
 
 const columnGroups = [
   { title: "Applied", statuses: ["Applied", "OA Scheduled", "OA Cleared"] },
-  { title: "Interviewing", statuses: ["Shortlisted", "Interview Scheduled", "HR Round", "Technical Round", "Final Round"] },
+  { title: "In Progress", statuses: ["Shortlisted", "Interview Scheduled", "HR Round", "Technical Round", "Final Round"] },
   { title: "Closed", statuses: ["Rejected", "Ghosted", "Offer Received", "Accepted"] },
 ];
 

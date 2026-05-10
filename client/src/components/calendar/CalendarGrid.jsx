@@ -1,5 +1,5 @@
 import CalendarDayCell from "./CalendarDayCell";
-import { getCalendarDays, isSameDay } from "../../utils/calendar";
+import { getCalendarDays, isSameDay, parseCalendarDate } from "../../utils/calendar";
 
 const weekdays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
@@ -22,7 +22,7 @@ const CalendarGrid = ({ currentMonth, events }) => {
 
       <div className="grid grid-cols-7 border-l border-t border-app-outline">
         {days.map((day) => {
-          const dayEvents = events.filter((event) => isSameDay(new Date(event.date), day));
+          const dayEvents = events.filter((event) => isSameDay(parseCalendarDate(event.date), day));
           return (
             <CalendarDayCell
               key={day.toISOString()}
