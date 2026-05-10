@@ -3,6 +3,7 @@ import EmptyState from "../../components/common/EmptyState";
 import Loader from "../../components/common/Loader";
 import MonthlyChart from "../../components/charts/MonthlyChart";
 import StatusChart from "../../components/charts/StatusChart";
+import ApplicationActivityHeatmap from "../../components/dashboard/ApplicationActivityHeatmap";
 import RecentApplications from "../../components/dashboard/RecentApplications";
 import StatCard from "../../components/dashboard/StatCard";
 import { getDashboardRequest } from "../../services/dashboardService";
@@ -76,6 +77,11 @@ const DashboardPage = () => {
         <StatusChart data={dashboard.statusBreakdown} />
         <MonthlyChart data={dashboard.monthlyApplications} />
       </div>
+
+      <ApplicationActivityHeatmap
+        activity={dashboard.applicationActivity}
+        totalApplications={dashboard.summary.totalApplications}
+      />
 
       <RecentApplications items={dashboard.recentApplications} />
     </div>

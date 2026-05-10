@@ -4,7 +4,7 @@ import asyncHandler from "../utils/asyncHandler.js";
 export const getDashboard = asyncHandler(async (req, res) => {
   const userId = req.user._id;
 
-  const [applications, statusCounts, monthlyCounts] = await Promise.all([
+  const [applications, statusCounts, monthlyCounts, dailyCounts] = await Promise.all([
     Application.find({ userId }).sort({ appliedDate: -1 }).limit(5),
     Application.aggregate([
       { $match: { userId } },
@@ -22,6 +22,21 @@ export const getDashboard = asyncHandler(async (req, res) => {
         },
       },
       { $sort: { "_id.year": 1, "_id.month": 1 } },
+    ]),
+    Application.aggregate([
+      { $match: { userId } },
+      {
+        $group: {
+          _id: {
+            $dateToString: {
+              format: "%Y-%m-%d",
+              date: "$appliedDate",
+            },
+          },
+          count: { $sum: 1 },
+        },
+      },
+      { $sort: { _id: 1 } },
     ]),
   ]);
 
@@ -54,6 +69,10 @@ export const getDashboard = asyncHandler(async (req, res) => {
     })),
     monthlyApplications: monthlyCounts.map((item) => ({
       label: `${item._id.month}/${item._id.year}`,
+      value: item.count,
+    })),
+    applicationActivity: dailyCounts.map((item) => ({
+      date: item._id,
       value: item.count,
     })),
   });
