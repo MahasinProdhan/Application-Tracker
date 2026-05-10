@@ -34,6 +34,20 @@ export const CALENDAR_EVENT_STYLES = {
 
 export const calendarEvents = [];
 
+export const parseCalendarDate = (value) => {
+  if (typeof value !== "string") {
+    return new Date(value);
+  }
+
+  const [year, month, day] = value.split("-").map(Number);
+
+  if (!year || !month || !day) {
+    return new Date(value);
+  }
+
+  return new Date(year, month - 1, day);
+};
+
 export const getMonthLabel = (date) =>
   new Intl.DateTimeFormat("en-US", {
     month: "long",
@@ -41,7 +55,7 @@ export const getMonthLabel = (date) =>
   }).format(date);
 
 export const getShortDateLabel = (value) => {
-  const date = new Date(value);
+  const date = parseCalendarDate(value);
   return new Intl.DateTimeFormat("en-US", {
     month: "short",
     day: "numeric",
@@ -49,7 +63,7 @@ export const getShortDateLabel = (value) => {
 };
 
 export const getRelativeLabel = (value) => {
-  const target = new Date(value);
+  const target = parseCalendarDate(value);
   const now = new Date();
   now.setHours(0, 0, 0, 0);
   target.setHours(0, 0, 0, 0);

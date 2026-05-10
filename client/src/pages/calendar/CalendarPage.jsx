@@ -1,11 +1,32 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import toast from "react-hot-toast";
 import CalendarGrid from "../../components/calendar/CalendarGrid";
 import CalendarToolbar from "../../components/calendar/CalendarToolbar";
 import EventFilters from "../../components/calendar/EventFilters";
 import ScheduleEventModal from "../../components/calendar/ScheduleEventModal";
 import UpcomingEventsList from "../../components/calendar/UpcomingEventsList";
-import { calendarEvents } from "../../utils/calendar";
+import { calendarEvents, parseCalendarDate } from "../../utils/calendar";
+import {
+  createCalendarEventRequest,
+  getCalendarEventsRequest,
+} from "../../services/calendarEventService";
+
+const formatEventTime = (time) => {
+  if (!time) {
+    return "Flexible time";
+  }
+
+  return new Date(`1970-01-01T${time}`).toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+  });
+};
+
+const normalizeEvent = (event) => ({
+  ...event,
+  id: event._id,
+  time: formatEventTime(event.time),
+});
 
 const CalendarPage = () => {
   const [currentMonth, setCurrentMonth] = useState(new Date(2026, 4, 1));
@@ -13,6 +34,15 @@ const CalendarPage = () => {
   const [events, setEvents] = useState(calendarEvents);
   const [isScheduleModalOpen, setIsScheduleModalOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+
+  const loadEvents = async () => {
+    const data = await getCalendarEventsRequest();
+    setEvents(data.events.map(normalizeEvent));
+  };
+
+  useEffect(() => {
+    loadEvents();
+  }, []);
 
   const filteredEvents = useMemo(() => {
     if (activeFilter === "all") {
@@ -25,7 +55,7 @@ const CalendarPage = () => {
   const upcomingEvents = useMemo(
     () =>
       [...filteredEvents]
-        .sort((left, right) => new Date(left.date) - new Date(right.date))
+        .sort((left, right) => parseCalendarDate(left.date) - parseCalendarDate(right.date))
         .slice(0, 5),
     [filteredEvents]
   );
@@ -50,28 +80,12 @@ const CalendarPage = () => {
   const handleScheduleEvent = async (formData) => {
     setSubmitting(true);
     try {
-      const nextEvent = {
-        id: `evt-${Date.now()}`,
-        type: formData.type,
-        company: formData.company,
-        title: formData.title,
-        date: formData.date,
-        time: formData.time
-          ? new Date(`1970-01-01T${formData.time}`).toLocaleTimeString("en-US", {
-              hour: "numeric",
-              minute: "2-digit",
-            })
-          : "Flexible time",
-        notes: formData.notes,
-      };
+      const data = await createCalendarEventRequest(formData);
 
-      setEvents((current) => [...current, nextEvent]);
+      setEvents((current) => [...current, normalizeEvent(data.event)]);
+      const eventDate = parseCalendarDate(formData.date);
       setCurrentMonth(
-        new Date(
-          new Date(formData.date).getFullYear(),
-          new Date(formData.date).getMonth(),
-          1
-        )
+        new Date(eventDate.getFullYear(), eventDate.getMonth(), 1)
       );
       setIsScheduleModalOpen(false);
       toast.success("Event scheduled");
