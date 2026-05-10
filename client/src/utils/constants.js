@@ -32,6 +32,5 @@ export const NAV_ITEMS = [
   { label: "Dashboard", path: "/dashboard" },
   { label: "Applications", path: "/applications" },
   { label: "Kanban", path: "/kanban" },
-  { label: "Analytics", path: "/analytics" },
   { label: "Calendar", path: "/calendar" },
 ];

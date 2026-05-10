@@ -12,6 +12,12 @@ export const CALENDAR_EVENT_STYLES = {
     card: "border-blue-200 bg-blue-50/70",
     label: "Interview",
   },
+  assessment: {
+    dot: "bg-amber-500",
+    chip: "border-amber-200 bg-amber-50 text-amber-700",
+    card: "border-amber-200 bg-amber-50/70",
+    label: "Assessment",
+  },
   deadline: {
     dot: "bg-red-500",
     chip: "border-red-200 bg-red-50 text-red-700",
@@ -26,72 +32,7 @@ export const CALENDAR_EVENT_STYLES = {
   },
 };
 
-export const calendarEvents = [
-  {
-    id: "evt-1",
-    type: "interview",
-    company: "Acme Corp",
-    title: "Technical Interview",
-    date: "2026-05-12",
-    time: "2:00 PM",
-  },
-  {
-    id: "evt-2",
-    type: "deadline",
-    company: "Northstar Labs",
-    title: "Assessment Submission",
-    date: "2026-05-13",
-    time: "11:59 PM",
-  },
-  {
-    id: "evt-3",
-    type: "follow-up",
-    company: "Vantage Systems",
-    title: "Recruiter Follow-up",
-    date: "2026-05-15",
-    time: "10:30 AM",
-  },
-  {
-    id: "evt-4",
-    type: "interview",
-    company: "Orbital AI",
-    title: "HR Round",
-    date: "2026-05-16",
-    time: "4:00 PM",
-  },
-  {
-    id: "evt-5",
-    type: "deadline",
-    company: "Crest Data",
-    title: "Application Closing Date",
-    date: "2026-05-19",
-    time: "6:00 PM",
-  },
-  {
-    id: "evt-6",
-    type: "interview",
-    company: "Pixel Foundry",
-    title: "Design Portfolio Review",
-    date: "2026-05-20",
-    time: "1:00 PM",
-  },
-  {
-    id: "evt-7",
-    type: "follow-up",
-    company: "Helix Cloud",
-    title: "Send Thank-you Note",
-    date: "2026-05-21",
-    time: "9:00 AM",
-  },
-  {
-    id: "evt-8",
-    type: "interview",
-    company: "Lumina Tech",
-    title: "Final Round",
-    date: "2026-05-26",
-    time: "3:30 PM",
-  },
-];
+export const calendarEvents = [];
 
 export const getMonthLabel = (date) =>
   new Intl.DateTimeFormat("en-US", {

@@ -2,7 +2,13 @@ import { ChevronLeft, ChevronRight, Plus } from "lucide-react";
 import Button from "../common/Button";
 import { getMonthLabel } from "../../utils/calendar";
 
-const CalendarToolbar = ({ currentMonth, onPrevious, onNext, onToday }) => (
+const CalendarToolbar = ({
+  currentMonth,
+  onPrevious,
+  onNext,
+  onToday,
+  onScheduleEvent,
+}) => (
   <div className="panel flex flex-col gap-4 p-4 md:flex-row md:items-center md:justify-between">
     <div>
       <h2 className="text-2xl font-semibold tracking-tight text-app-text">
@@ -33,7 +39,7 @@ const CalendarToolbar = ({ currentMonth, onPrevious, onNext, onToday }) => (
           <ChevronRight size={16} />
         </button>
       </div>
-      <Button className="gap-2">
+      <Button className="gap-2" onClick={onScheduleEvent}>
         <Plus size={16} />
         Schedule Event
       </Button>

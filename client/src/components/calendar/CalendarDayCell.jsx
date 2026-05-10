@@ -6,13 +6,13 @@ const CalendarDayCell = ({ day, currentMonth, today, events }) => {
 
   return (
     <div
-      className={`min-h-32 border-b border-r border-app-outline p-3 transition hover:bg-app-surface-low ${
+      className={`min-h-24 border-b border-r border-app-outline p-2.5 transition hover:bg-app-surface-low ${
         !isCurrentMonth ? "bg-app-surface-low/50" : "bg-app-surface"
       }`}
     >
-      <div className="mb-3 flex items-center justify-between">
+      <div className="mb-2 flex items-center justify-between">
         <span
-          className={`inline-flex h-7 w-7 items-center justify-center rounded-full text-sm font-medium ${
+          className={`inline-flex h-6 w-6 items-center justify-center rounded-full text-xs font-medium ${
             isToday
               ? "bg-app-primary text-white"
               : isCurrentMonth
@@ -24,21 +24,21 @@ const CalendarDayCell = ({ day, currentMonth, today, events }) => {
         </span>
       </div>
 
-      <div className="space-y-1.5">
-        {events.slice(0, 3).map((event) => {
+      <div className="space-y-1">
+        {events.slice(0, 2).map((event) => {
           const style = CALENDAR_EVENT_STYLES[event.type];
           return (
             <div
               key={event.id}
-              className={`truncate rounded-md border px-2 py-1 text-[11px] font-medium ${style.chip}`}
+              className={`truncate rounded-md border px-2 py-1 text-[10px] font-medium leading-none ${style.chip}`}
               title={`${event.company} - ${event.title}`}
             >
-              {event.company} · {event.title}
+              {event.company} | {event.title}
             </div>
           );
         })}
-        {events.length > 3 ? (
-          <p className="text-[11px] font-medium text-app-muted">+{events.length - 3} more</p>
+        {events.length > 2 ? (
+          <p className="text-[10px] font-medium text-app-muted">+{events.length - 2} more</p>
         ) : null}
       </div>
     </div>
