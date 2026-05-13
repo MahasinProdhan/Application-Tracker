@@ -106,6 +106,7 @@ const ApplicationsPage = () => {
         <EmptyState
           title="No applications match this view"
           description="Try a different status filter or add your first application to start building your pipeline."
+          onAction={handleCreateClick}
         />
       )}
 

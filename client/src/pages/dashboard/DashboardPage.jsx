@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
+import ApplicationFormModal from "../../components/applications/ApplicationFormModal";
 import EmptyState from "../../components/common/EmptyState";
 import Loader from "../../components/common/Loader";
 import MonthlyChart from "../../components/charts/MonthlyChart";
@@ -6,24 +8,39 @@ import StatusChart from "../../components/charts/StatusChart";
 import ApplicationActivityHeatmap from "../../components/dashboard/ApplicationActivityHeatmap";
 import RecentApplications from "../../components/dashboard/RecentApplications";
 import StatCard from "../../components/dashboard/StatCard";
+import { createApplicationRequest } from "../../services/applicationService";
 import { getDashboardRequest } from "../../services/dashboardService";
 
 const DashboardPage = () => {
   const [dashboard, setDashboard] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+
+  const loadDashboard = async () => {
+    try {
+      const data = await getDashboardRequest();
+      setDashboard(data);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const loadDashboard = async () => {
-      try {
-        const data = await getDashboardRequest();
-        setDashboard(data);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     loadDashboard();
   }, []);
+
+  const handleSubmit = async (formData) => {
+    setSubmitting(true);
+    try {
+      await createApplicationRequest(formData);
+      toast.success("Application created successfully");
+      setIsModalOpen(false);
+      loadDashboard();
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   if (loading) {
     return <Loader text="Loading dashboard..." />;
@@ -31,10 +48,21 @@ const DashboardPage = () => {
 
   if (!dashboard?.summary?.totalApplications) {
     return (
-      <EmptyState
-        title="No applications yet"
-        description="Start adding applications to unlock dashboard insights, trends, and pipeline visibility."
-      />
+      <>
+        <EmptyState
+          title="No applications yet"
+          description="Start adding applications to unlock dashboard insights, trends, and pipeline visibility."
+          onAction={() => setIsModalOpen(true)}
+        />
+        <ApplicationFormModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          onSubmit={handleSubmit}
+          currentApplication={null}
+          mode="create"
+          submitting={submitting}
+        />
+      </>
     );
   }
 
