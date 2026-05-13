@@ -13,10 +13,11 @@ export const signup = asyncHandler(async (req, res) => {
   }
 
   const user = await User.create({ name, email, password });
-  attachTokenCookie(res, user._id);
+  const token = attachTokenCookie(res, user._id);
 
   res.status(201).json({
     message: "Account created successfully",
+    token,
     user: {
       id: user._id,
       name: user.name,
@@ -35,10 +36,11 @@ export const login = asyncHandler(async (req, res) => {
     throw error;
   }
 
-  attachTokenCookie(res, user._id);
+  const token = attachTokenCookie(res, user._id);
 
   res.json({
     message: "Logged in successfully",
+    token,
     user: {
       id: user._id,
       name: user.name,

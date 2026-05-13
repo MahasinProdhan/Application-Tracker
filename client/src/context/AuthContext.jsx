@@ -18,6 +18,7 @@ export const AuthProvider = ({ children }) => {
       const { user: currentUser } = await getCurrentUserRequest();
       setUser(currentUser);
     } catch (_error) {
+      localStorage.removeItem("token");
       setUser(null);
     } finally {
       setLoading(false);
@@ -30,6 +31,9 @@ export const AuthProvider = ({ children }) => {
 
   const signup = async (payload) => {
     const data = await signupRequest(payload);
+    if (data.token) {
+      localStorage.setItem("token", data.token);
+    }
     setUser(data.user);
     toast.success(data.message);
     return data;
@@ -37,6 +41,9 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (payload) => {
     const data = await loginRequest(payload);
+    if (data.token) {
+      localStorage.setItem("token", data.token);
+    }
     setUser(data.user);
     toast.success(data.message);
     return data;
@@ -44,6 +51,7 @@ export const AuthProvider = ({ children }) => {
 
   const logout = async () => {
     const data = await logoutRequest();
+    localStorage.removeItem("token");
     setUser(null);
     toast.success(data.message);
   };
